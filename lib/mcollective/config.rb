@@ -58,7 +58,7 @@ module MCollective
                 when "logfacility"
                   @logfacility = val
                 when "libdir"
-                  paths = val.split(/:/)
+                  paths = val.split(/#{path_list_separator}/)
                   paths.each do |path|
                     @libdir << path
                     unless $LOAD_PATH.include?(path)
@@ -189,5 +189,15 @@ module MCollective
         end
       end
     end
+    
+    def is_windows?
+      require 'rbconfig'
+      RbConfig::CONFIG['host_os'] =~ /mswin|win32|dos|mingw|cygwin/i
+    end
+    
+    def path_list_separator
+      is_windows? ? ';' : ':'
+    end
+    
   end
 end
