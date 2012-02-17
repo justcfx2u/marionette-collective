@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+$: << './marionette-collective/lib'
+
 require 'mcollective'
 require 'getoptlong'
 
@@ -39,7 +41,16 @@ Signal.trap("TERM") do
     exit!
 end
 
-if config.daemonize
+if config.daemonize and config.is_windows?
+  begin
+    MCollective::Log.debug('in daemonize/windows')
+    MCollective::Runner.mainloop
+    MCollective::Log.debug('after mainloop')
+  rescue Exception => err 
+    MCollective::Log.critical("*** General failure, err=#{err}")
+    raise
+  end
+elsif config.daemonize
     MCollective::Log.debug("Starting in the background (#{config.daemonize})")
     MCollective::Runner.daemonize do
         if pid

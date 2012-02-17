@@ -2,7 +2,12 @@ module MCollective
     # The main runner for the daemon, supports running in the foreground
     # and the background, keeps detailed stats and provides hooks to access
     # all this information
-    class Runner
+    
+    require 'win32/daemon'
+    include Win32
+    
+    class Runner < Daemon
+    
         def initialize(configfile)
             @config = Config.instance
             @config.loadconfig(configfile) unless @config.configured
@@ -13,19 +18,10 @@ module MCollective
             @security.initiated_by = :node
 
             @connection = PluginManager["connector_plugin"]
+            
             @connection.connect
 
             @agents = Agents.new
-
-            Signal.trap("USR1") do
-                Log.info("Reloading all agents after receiving USR1 signal")
-                @agents.loadagents
-            end
-
-            Signal.trap("USR2") do
-                Log.info("Cycling logging level due to USR2 signal")
-                Log.cycle_level
-            end
         end
 
         # Daemonize the current process
