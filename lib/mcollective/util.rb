@@ -235,6 +235,10 @@ module MCollective
       return str
     end
 
+    def self.windows?
+      RbConfig::CONFIG['host_os'] =~ /mswin|win32|dos|mingw|cygwin/i
+    end
+
     def self.eval_compound_statement(expression)
       if expression.values.first =~ /^\//
         return Util.has_cf_class?(expression.values.first)

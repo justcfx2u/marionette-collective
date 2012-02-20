@@ -17,14 +17,16 @@ module MCollective
 
       @agents = Agents.new
 
-      Signal.trap("USR1") do
-        Log.info("Reloading all agents after receiving USR1 signal")
-        @agents.loadagents
-      end
+      unless Util.windows?
+        Signal.trap("USR1") do
+          Log.info("Reloading all agents after receiving USR1 signal")
+          @agents.loadagents
+        end
 
-      Signal.trap("USR2") do
-        Log.info("Cycling logging level due to USR2 signal")
-        Log.cycle_level
+        Signal.trap("USR2") do
+          Log.info("Cycling logging level due to USR2 signal")
+          Log.cycle_level
+        end
       end
     end
 

@@ -58,7 +58,7 @@ module MCollective
                 when "logfacility"
                   @logfacility = val
                 when "libdir"
-                  paths = val.split(/:/)
+                  paths = val.split(File::PATH_SEPARATOR)
                   paths.each do |path|
                     @libdir << path
                     unless $LOAD_PATH.include?(path)
@@ -119,6 +119,10 @@ module MCollective
         @configured = true
 
         @libdir.each {|dir| Log.warn("Cannot find libdir: #{dir}") unless File.directory?(dir)}
+
+        if @logger_type == "syslog"
+          raise "The sylog logger is not usable on the Windows platform" if Util.windows?
+        end
 
         PluginManager.loadclass("Mcollective::Facts::#{@factsource}_facts")
         PluginManager.loadclass("Mcollective::Connector::#{@connector}")
