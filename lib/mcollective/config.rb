@@ -155,9 +155,9 @@ module MCollective
       @rpcauthorization = false
       @rpcauthprovider = ""
       @configdir = File.dirname(configfile)
-      @color = true
+      @color = !Util.windows?
       @configfile = configfile
-      @rpchelptemplate = "/etc/mcollective/rpc-help.erb"
+      @rpchelptemplate = File.join(File.dirname(configfile), "pc-help.erb")
       @logger_type = "file"
       @keeplogs = 5
       @max_log_size = 2097152

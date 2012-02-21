@@ -27,6 +27,8 @@ module MCollective
           Log.info("Cycling logging level due to USR2 signal")
           Log.cycle_level
         end
+      else
+        Util.setup_windows_sleeper
       end
     end
 

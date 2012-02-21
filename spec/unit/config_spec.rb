@@ -35,6 +35,16 @@ module MCollective
           Config.instance.loadconfig("/nonexisting")
         end
       end
+
+      it "should not allow the syslog logger type on windows" do
+        Util.expects("windows?").returns(true).twice
+        File.expects(:open).with("/nonexisting", "r").returns(StringIO.new("logger_type = syslog"))
+        File.expects(:exists?).with("/nonexisting").returns(true)
+        PluginManager.stubs(:loadclass)
+        PluginManager.stubs("<<")
+
+        expect { Config.instance.loadconfig("/nonexisting") }.to raise_error("The sylog logger is not usable on the Windows platform")
+      end
     end
 
     describe "#read_plugin_config_dir" do
