@@ -65,7 +65,8 @@ case action
       :service_name => options[:name],
       :display_name => options[:display_name],
       :description => options[:description],
-      :binary_path_name => options[:command]
+      :binary_path_name => options[:command],
+      :service_type => Service::SERVICE_WIN32_OWN_PROCESS
     )
 
     puts "Service %s installed" % [options[:name]]
