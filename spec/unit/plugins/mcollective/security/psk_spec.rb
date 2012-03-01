@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env rspec
 
 require 'spec_helper'
 require File.dirname(__FILE__) + '/../../../../../plugins/mcollective/security/psk.rb'

@@ -157,7 +157,6 @@ module MCollective
       @configdir = File.dirname(configfile)
       @color = !Util.windows?
       @configfile = configfile
-      @rpchelptemplate = File.join(File.dirname(configfile), "pc-help.erb")
       @logger_type = "file"
       @keeplogs = 5
       @max_log_size = 2097152
@@ -172,6 +171,12 @@ module MCollective
       @direct_addressing = false
       @direct_addressing_threshold = 10
       @ttl = 60
+
+      # look in the config dir for the template so users can provide their own and windows
+      # with odd paths will just work more often, but fall back to old behavior if it does
+      # not exist
+      @rpchelptemplate = File.join(File.dirname(configfile), "rpc-help.erb")
+      @rpchelptemplate = "/etc/mcollective/rpc-help.erb" unless File.exists?(@rpchelptemplate)
     end
 
     def read_plugin_config_dir(dir)

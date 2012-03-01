@@ -14,7 +14,9 @@ module MCollective
       end
     end
 
-    def self.daemonize_runner
+    def self.daemonize_runner(pid=nil)
+      raise "The Unix Daemonizer can not be used on the Windows Platform" if Util.windows?
+
       UnixDaemon.daemonize do
         if pid
           begin

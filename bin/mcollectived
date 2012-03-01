@@ -49,7 +49,7 @@ if config.daemonize
   else
     require 'mcollective/unix_daemon'
 
-    MCollective::UnixDaemon.daemonize_runner
+    MCollective::UnixDaemon.daemonize_runner(pid)
   end
 else
   MCollective::Log.debug("Starting in the foreground")
