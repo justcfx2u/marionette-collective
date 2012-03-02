@@ -5,7 +5,7 @@ opt = OptionParser.new
 basedir = ENV["BASEDIR"]
 libdir = ENV["RUBYLIB"]
 mcollectived = ENV["MCOLLECTIVED"]
-ruby_path = ENV["RUBY"]
+ruby_path = ENV["RUBY"].gsub('"','')
 configfile = ENV["SERVER_CONFIG"]
 
 if not File.exist?(ruby_path)
