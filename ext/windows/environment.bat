@@ -2,6 +2,8 @@ SET BASEDIR=%~dp0..
 SET BASEDIR=%BASEDIR:\bin\..=%
 
 SET MCOLLECTIVED=%BASEDIR%\bin\mcollectived
+SET MC_STARTTYPE="manual"
+REM SET MC_STARTTYPE="auto"
 
 SET SERVER_CONFIG=%BASEDIR%\etc\server.cfg
 SET CLIENT_CONFIG=%BASEDIR%\etc\client.cfg

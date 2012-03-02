@@ -50,12 +50,20 @@ include Win32
 
 case action
   when :install
+    case ENV["MC_STARTTYPE"]
+      when /manual/i
+        start_type = Service::DEMAND_START
+      when /auto/i
+        start_type = Service::AUTO_START
+    end
+    
     Service.new(
       :service_name => options[:name],
       :display_name => options[:display_name],
       :description => options[:description],
       :binary_path_name => options[:command],
-      :service_type => Service::SERVICE_WIN32_OWN_PROCESS
+      :service_type => Service::SERVICE_WIN32_OWN_PROCESS,
+      :start_type => start_type
     )
 
     puts "Service %s installed" % [options[:name]]
