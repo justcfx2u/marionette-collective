@@ -2,22 +2,11 @@ require 'optparse'
 
 opt = OptionParser.new
 
-ruby_path = nil
-basedir = File.expand_path(File.join(File.dirname(__FILE__), ".."))
-libdir = File.join(basedir, "lib")
-mcollectived = File.join(basedir, "bin", "mcollectived")
-configfile = File.join(basedir, "etc", "server.cfg")
-
-ENV["PATH"].split(File::PATH_SEPARATOR).each do |path|
-  ruby = File.join(path, "ruby.exe")
-
-  if File.exist?(ruby)
-    ruby_path = ruby
-    break
-  end
-end
-
-abort("Can't find ruby.ext in the path") unless ruby_path
+basedir = ENV["BASEDIR"]
+libdir = ENV["RUBYLIB"]
+mcollectived = ENV["MCOLLECTIVED"]
+ruby_path = ENV["RUBY"]
+configfile = ENV["SERVER_CONFIG"]
 
 options = {:name    => "mcollectived",
            :display_name => "The Marionette Collective",

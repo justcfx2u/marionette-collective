@@ -4,4 +4,4 @@ SETLOCAL
 
 call "%~dp0environment.bat" %0 %*
 
-ruby -S -- service_manager.rb --uninstall
+%RUBY% -S -- service_manager.rb --uninstall
