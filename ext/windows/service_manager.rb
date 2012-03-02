@@ -8,6 +8,18 @@ mcollectived = ENV["MCOLLECTIVED"]
 ruby_path = ENV["RUBY"]
 configfile = ENV["SERVER_CONFIG"]
 
+if not File.exist?(ruby_path)
+  # Canonicalize ruby.exe, in case we are just "ruby" or otherwise invalid
+  ENV["PATH"].split(File::PATH_SEPARATOR).each do |path|
+    ruby = File.join(path, "ruby.exe")
+
+    if File.exist?(ruby)
+      ruby_path = ruby
+      break
+    end
+  end
+end
+
 options = {:name    => "mcollectived",
            :display_name => "The Marionette Collective",
            :description => "Puppet Labs server orcahastration framework",
